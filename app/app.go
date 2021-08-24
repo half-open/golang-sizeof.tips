@@ -1,8 +1,10 @@
 package app
 
-import "github.com/gophergala/golang-sizeof.tips/internal/log"
+import (
+	"github.com/sirupsen/logrus"
+)
 
-var appLog log.Logger
+var appLog *logrus.Entry
 
 const DefaultHttpPort = ":7777"
 

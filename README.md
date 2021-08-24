@@ -1,7 +1,7 @@
 Golang sizeof tips
 ==================
 
-_Moved from [gophergala/golang-sizeof.tips](https://github.com/gophergala/golang-sizeof.tips)_
+_Moved from [gophergala/golang-sizeof.tips](https://github.com/half-open/golang-sizeof.tips)_
 
 **THE PROJECT IS CLOSED. THANKS ANYONE WHO USED IT!**  
 
@@ -21,8 +21,8 @@ and remember alignment rules.
 To install correct versions of dependencies
 [Goop dependency manager](https://github.com/nitrous-io/goop) should be used.
 ```bash
-go get github.com/gophergala/golang-sizeof.tips
-cd github.com/gophergala/golang-sizeof.tips
+go get github.com/half-open/golang-sizeof.tips
+cd github.com/half-open/golang-sizeof.tips
 goop install
 goop go build -o ./server
 ```

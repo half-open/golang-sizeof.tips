@@ -8,7 +8,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/gophergala/golang-sizeof.tips/internal/log"
+	log "github.com/sirupsen/logrus"
 
 	daemon "github.com/tyranron/daemonigo"
 )
@@ -22,19 +22,21 @@ func Run() (exitCode int) {
 	case !isDaemon:
 		return
 	case err != nil:
-		log.StdErr("could not start daemon, reason -> %s", err.Error())
+		log.Error("could not start daemon, reason -> %s", err.Error())
 		return 1
 	}
 
 	var err error
-	appLog, err = log.NewApplicationLogger()
+	appLog = log.WithFields(log.Fields{
+		"animal": "walrus",
+	})
 	if err != nil {
-		log.StdErr("could not create access log, reason -> %s", err.Error())
+		log.Errorf("could not create access log, reason -> %s", err.Error())
 		return 1
 	}
 
 	if err = prepareTemplates(); err != nil {
-		log.StdErr("could not parse html templates, reason -> %s", err.Error())
+		log.Errorf("could not parse html templates, reason -> %s", err.Error())
 		return 1
 	}
 
@@ -57,7 +59,7 @@ func Run() (exitCode int) {
 	select {
 	case err = <-httpErr:
 		appLog.Error(err.Error())
-		log.StdErr(err.Error())
+		log.Error(err.Error())
 		return 1
 	case <-time.After(300 * time.Millisecond):
 	}
@@ -71,7 +73,7 @@ func Run() (exitCode int) {
 // Notifies parent process that everything is OK.
 func notifyParentProcess() {
 	if err := syscall.Kill(os.Getppid(), syscall.SIGUSR1); err != nil {
-		appLog.Error(
+		appLog.Errorf(
 			"Notifying parent process FAILED, reason -> %s", err.Error(),
 		)
 	} else {
